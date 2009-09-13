@@ -5,9 +5,20 @@
 
 		// Required params
 		var selector = params.elem;
+		if (!params.friendGenerator) {
+			params.friendGenerator = new (function(data) {
+				var i = 0;
+				this.next = function() {
+					if (i >= data.length) {
+						return null;
+					}
+					return data[i++];
+				}
+			})(params.data);
+		}
 
 		// Optional params
-		var limit = params.limit != null ? params.limit : params.data.length;
+		var limit = params.limit != null ? params.limit : -1;
 		var extra_form_params = params.extra_form_params || {};
 	
 		$(function() {
@@ -17,7 +28,7 @@
 			// Friend selected event
 			selector.find("input[type=checkbox]").change(function(){
 				var count = selector.find("input[type=checkbox][checked=true]").length;
-				if (count > limit) {
+				if (limit >= 0 && count > limit) {
 					$(this).attr("checked",false);
 					return false;
 				}
@@ -106,10 +117,11 @@
 					</div>\
 					<div class="unselected">\
 						<form action="<%=action%>" method="<%=method%>">\
-						<% for (var i = 0; i < data.length; i++) { %>\
-							<div class="friend __tab_all <% for (var j = 0; j < data[i].tabs.length; j++) {%> __tab_<%=data[i].tabs[j]%> <% } %>">\
-								<input type="checkbox" name="ids[]" id="<%=\"cb\"+data[i].id%>" value="<%=data[i].id%>" />\
-								<label for="<%=\"cb\"+data[i].id%>"><%=data[i].name%></label>\
+						<% var friend; %>\
+						<% while (friend = friendGenerator.next()) { %>\
+							<div class="friend __tab_all <% for (var j = 0; j < friend.tabs.length; j++) {%> __tab_<%=friend.tabs[j]%> <% } %>">\
+								<input type="checkbox" name="ids[]" id="<%=\"cb\"+friend.id%>" value="<%=friend.id%>" />\
+								<label for="<%=\"cb\"+friend.id%>"><%=friend.name%></label>\
 							</div>\
 						<% } %>\
 						<% for (var k in extra_form_params) { %>\

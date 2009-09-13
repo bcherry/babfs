@@ -18,7 +18,7 @@ var bfs = new BetterFriendSelector({
 	action:"index.html", 
 	method:"GET", 
 	submit_text:"Send Friend Request", 
-	data:fs_data, 
+	data:fs_data,
 	limit:10,
 	elem:$("#bfs"), 
 	tabs:[{key:"hasapp",name:"Friends With App"}, {key:"nonapp",name:"Friends Without App"}],
