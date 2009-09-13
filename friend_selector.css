@@ -100,6 +100,9 @@
 	float:right;
 }
 
+.friend_selector .pager ul {
+
+}
 
 .friend_selector .filtered {
 	display:none;

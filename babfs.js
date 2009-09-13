@@ -21,6 +21,7 @@ var bfs = new BFS.BetterFriendSelector({
 	data:fs_data,
 	limit:10,
 	elem:$("#bfs"), 
+	pageSize:10,
 	tabs:[{key:"hasapp",name:"Friends With App"}, {key:"nonapp",name:"Friends Without App"}],
 	extra_form_params:extra_form_params
 });

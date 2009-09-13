@@ -21,10 +21,31 @@
 		// Optional params
 		var limit = params.limit !== null ? params.limit : -1;
 		var extra_form_params = params.extra_form_params || {};
+
+		// Private Methods
+		var _refreshPager = function () {
+			if (params.pageSize) {
+				pages = [];
+				// Numeric paging
+				if (params.pageSize.constructor == Number) {
+					var visibleFriends = selector.find(".friend:not(.tabbed,.hidden,.filtered)").length;
+					for (var i = 0; i < visibleFriends / params.pageSize; i++) {
+						pages = pages.concat([i+1]);
+					}
+				// Alphabetic Paging
+				} else if (params.pageSize == 'alpha') {
+					pages = ['#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+				}
+				selector.find(".pager").tmpl(BFS.templates.pager,{pages:pages}).show();
+			}
+		}
 	
 		$(function() {
 			// Render the selector
 			selector.tmpl(BFS.templates.body,params);
+
+			// Render the (optional) pager
+			_refreshPager();
 
 			// Friend selected event
 			selector.find("input[type=checkbox]").change(function(){
@@ -96,6 +117,7 @@
 			});
 		});
 
+
 		// Public Methods
 		this.unselectAll = function() {
 			selector.find(".selected .remove").click();
@@ -155,6 +177,7 @@
 						<% } %>\
 						</form>\
 					</div>\
+					<div class="pager" style="display:none;" />\
 					<div class="selected" />\
 				</div>\
 				<input type="submit" name="selector_submit" class="submit" value="<%=submit_text%>" />\
@@ -162,6 +185,13 @@
 		',
 		"selected_elem":'\
 			<div><span class="remove" id="<%=id%>">X</span><%=name%></div>\
+		',
+		"pager":'\
+			<ul>\
+				<% for (var i = 0; i < pages.length; i++) { %>\
+					<li class="page_change"><%=pages[i]%></li>\
+				<% } %>\
+			</ul>\
 		'
 	};
 })();	
