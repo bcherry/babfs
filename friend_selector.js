@@ -86,9 +86,9 @@
 			// Tab Switching
 			selector.find(".tab").click(function() {
 				var name = $(this).attr("name");
-				selector.find(".friend").removeClass("toggled").not(".__tab_" + name).addClass("toggled");
+				selector.find(".friend").removeClass("tabbed").not(".__tab_" + name).addClass("tabbed");
 				$(this).addClass("selected_tab").siblings(".tab").removeClass("selected_tab");
-			}).filter(":first").click();
+			}).filter(":first").trigger("click");
 
 			// Form Submission
 			selector.find("input[name=selector_submit]").click(function(){

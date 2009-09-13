@@ -108,7 +108,11 @@
 	display:none;
 }
 
-.friend_selector .toggled {
+.friend_selector .tabbed {
+	display:none;
+}
+
+.friend_selector .paged {
 	display:none;
 }
 
