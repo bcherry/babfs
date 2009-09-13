@@ -106,8 +106,18 @@
 
 .friend_selector .page_change {
 	float:left;
-	margin-left:3px;
 	cursor:pointer;
+	border-right:solid 1px #666666;
+	background-color:#F2F2F2;
+	height:17px;
+	padding-top:6px;
+	text-align:center;
+	min-width:25px;
+}
+
+.friend_selector .current_page {
+	background-color:#FFFFFF;
+	font-weight:bold;
 }
 
 .friend_selector .filtered {

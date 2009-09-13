@@ -68,10 +68,10 @@
 			// Assign the UI elements
 			filter = selector.find(".filter input");
 
-			// Event Handlers Follow.  Order matters here at some level, so be careful moving these around.
+			/* Event Handlers Follow.  Order matters here at some level, so be careful moving these around. */
 
 			// Friend selected event
-			selector.find("input[type=checkbox]").change(function(){
+			selector.find(":checkbox").change(function(){
 				if (limit >= 0 && that.selectedCount() > limit) {
 					$(this).attr("checked",false);
 					return false;
@@ -112,8 +112,11 @@
 
 			// Paging
 			selector.find(".page_change").live("click", function() {
+				$(this).addClass("current_page").siblings(".current_page").removeClass("current_page");
 				var low_num = parseInt($(this).attr("name")) * params.pageSize;
-				selector.find(".friend:not(.filtered,.tabbed,.hidden)").addClass("paged").filter(":gt(" + low_num + "):lt(" + params.pageSize + ")").removeClass("paged");
+				selector.find(".friend:not(.filtered,.tabbed,.hidden)").addClass("paged")
+					.filter((low_num ? (":gt(" + (low_num-1) + ")") : "") + (":lt(" + params.pageSize + ")"))
+					.removeClass("paged");
 			});
 
 			// Tab Switching
@@ -125,7 +128,7 @@
 			}).filter(":first").trigger("click"); // this trigger will also cause _refreshPager() to be called for the first time
 
 			// Form Submission
-			selector.find("input[name=selector_submit]").click(function(){
+			selector.find(":input[name=selector_submit]").click(function(){
 				selector.find("form").submit();
 			});
 		});
@@ -137,11 +140,11 @@
 		};
 
 		this.selectedCount = function() {
-			return selector.find("input[type=checkbox][checked=true]").length;
+			return selector.find(":checkbox:checked").length;
 		};
 
 		this.unselectedCount = function() {
-			return selector.find("input[type=checkbox][checked=false]").length;
+			return selector.find(":checkbox:not(:checked)").length;
 		}
 
 		this.selectRandom = function(n) {
@@ -153,7 +156,7 @@
 				n = limit - selected;
 			}
 			for (var i = 0; i < n; i++) {
-				selector.find("input[type=checkbox][checked=false]").eq(Math.floor(Math.random()*this.unselectedCount())).click().change();
+				selector.find(":checkbox:not(:checked)").eq(Math.floor(Math.random()*this.unselectedCount())).click().change();
 			}
 
 		};
