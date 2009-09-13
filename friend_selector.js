@@ -1,6 +1,7 @@
 (function(){
 	this.BFS = {};
 	BFS.BetterFriendSelector = function (params) {
+		var that = this;
 		//TODO: validation on params, existence of jQuery, etc.		
 
 		// Required params
@@ -27,8 +28,7 @@
 
 			// Friend selected event
 			selector.find("input[type=checkbox]").change(function(){
-				var count = selector.find("input[type=checkbox][checked=true]").length;
-				if (limit >= 0 && count > limit) {
+				if (limit >= 0 && that.selectedCount() > limit) {
 					$(this).attr("checked",false);
 					return false;
 				}
@@ -95,6 +95,33 @@
 				selector.find("form").submit();
 			});
 		});
+
+		// Public Methods
+		this.unselectAll = function() {
+			selector.find(".selected .remove").click();
+		};
+
+		this.selectedCount = function() {
+			return selector.find("input[type=checkbox][checked=true]").length;
+		};
+
+		this.unselectedCount = function() {
+			return selector.find("input[type=checkbox][checked=false]").length;
+		}
+
+		this.selectRandom = function(n) {
+			if (typeof(n) == 'undefined') {
+				n = limit;
+			}
+			var selected = this.selectedCount();
+			if (selected + n > limit) {
+				n = limit - selected;
+			}
+			for (var i = 0; i < n; i++) {
+				selector.find("input[type=checkbox][checked=false]").eq(Math.floor(Math.random()*this.unselectedCount())).click().change();
+			}
+
+		};
 	};
 
 	BFS.templates = {
