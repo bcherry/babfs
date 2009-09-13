@@ -111,6 +111,12 @@
 				$(this).addClass("selected_tab").siblings(".tab").removeClass("selected_tab");
 			}).filter(":first").trigger("click");
 
+			// Paging
+			selector.find(".page_change").live("click", function() {
+				var low_num = parseInt($(this).attr("name")) * params.pageSize;
+				selector.find(".friend:not(.filtered,.tabbed,.hidden)").addClass("paged").filter(":gt(" + low_num + "):lt(" + params.pageSize + ")").removeClass("paged");
+			});
+
 			// Form Submission
 			selector.find("input[name=selector_submit]").click(function(){
 				selector.find("form").submit();
@@ -177,7 +183,7 @@
 						<% } %>\
 						</form>\
 					</div>\
-					<div class="pager" style="display:none;" />\
+					<div class="pager clearfix" style="display:none;" />\
 					<div class="selected" />\
 				</div>\
 				<input type="submit" name="selector_submit" class="submit" value="<%=submit_text%>" />\
@@ -189,7 +195,7 @@
 		"pager":'\
 			<ul>\
 				<% for (var i = 0; i < pages.length; i++) { %>\
-					<li class="page_change"><%=pages[i]%></li>\
+					<li class="page_change" name="<%=i%>"><%=pages[i]%></li>\
 				<% } %>\
 			</ul>\
 		'

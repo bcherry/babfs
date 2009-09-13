@@ -100,8 +100,14 @@
 	float:right;
 }
 
-.friend_selector .pager ul {
+.friend_selector .pager {
+	border-bottom:solid 1px #666666;
+}
 
+.friend_selector .page_change {
+	float:left;
+	margin-left:3px;
+	cursor:pointer;
 }
 
 .friend_selector .filtered {
