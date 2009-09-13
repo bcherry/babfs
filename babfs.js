@@ -14,7 +14,7 @@ if (qs.length > 1) {
 
 fs_data = fs_data.slice(0,n);
 
-var bfs = new BetterFriendSelector({
+var bfs = new BFS.BetterFriendSelector({
 	action:"index.html", 
 	method:"GET", 
 	submit_text:"Send Friend Request", 

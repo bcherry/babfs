@@ -1,6 +1,6 @@
 (function(){
 	this.BFS = {};
-	this.BetterFriendSelector = function (params) {
+	BFS.BetterFriendSelector = function (params) {
 		//TODO: validation on params, existence of jQuery, etc.		
 
 		// Required params
@@ -13,12 +13,12 @@
 						return null;
 					}
 					return data[i++];
-				}
+				};
 			})(params.data);
 		}
 
 		// Optional params
-		var limit = params.limit != null ? params.limit : -1;
+		var limit = params.limit !== null ? params.limit : -1;
 		var extra_form_params = params.extra_form_params || {};
 	
 		$(function() {
@@ -56,12 +56,10 @@
 					filter_text = "";
 				}
 				selector.find(".unselected label").each(function(){
-					with($(this)) {
-						if(!text().match("^" + filter_text) && !text().match("[- \t]+" + filter_text)) {
-							parents(".friend").addClass("filtered");
-						} else {
-							parents(".friend").removeClass("filtered");
-						}
+					if(!$(this).text().match("^" + filter_text) && !$(this).text().match("[- \t]+" + filter_text)) {
+						$(this).parents(".friend").addClass("filtered");
+					} else {
+						$(this).parents(".friend").removeClass("filtered");
 					}
 				});
 			};
@@ -75,7 +73,7 @@
 				}
 			});
 			filter.blur(function() {
-				if ($(this).val() == "") {
+				if ($(this).val() === "") {
 					reset_filter();
 				}
 			});
@@ -97,7 +95,8 @@
 				selector.find("form").submit();
 			});
 		});
-	}
+	};
+
 	BFS.templates = {
 		"body":'\
 			<div class="friend_selector clearfix">\
@@ -139,4 +138,3 @@
 		'
 	};
 })();	
-
